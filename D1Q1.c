@@ -52,7 +52,7 @@ int main(){
     n++;
     arr=(int*)realloc(arr,n*sizeof(int));
 
-    for(int i=pos; i<n+1 ; i++){
+    for(int i=n-1; i<pos ; i++){
         arr[i]=arr[i-1];
     }
     arr[pos]=num;
