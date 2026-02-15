@@ -56,7 +56,7 @@ for(int i=0;i<n;i++){
 
 }
 
-if(index>0){
+if(index != -1){
     printf("Number found at index: %d\n",index);
 }
 else{
