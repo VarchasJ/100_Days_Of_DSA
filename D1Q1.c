@@ -50,12 +50,18 @@ int main(){
     scanf("%d",&pos);
 
     n++;
-    arr=(int*)realloc(arr,n*sizeof(int));
+    int*temp=(int*)realloc(arr,n*sizeof(int));
+    if(*temp==NULL){
+        free(arr);
+        return 1;
+    }
+    arr=temp;
 
     for(int i=n-1; i>pos-1 ; i--){
         arr[i]=arr[i-1];
     }
     arr[pos-1]=num;
+    
    printf("ARRAY AFTER INSERTION:");
    for(int i=0;i<n;i++){
      printf("%d\t",arr[i]);
