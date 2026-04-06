@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    bool dfs(int u, int parent, vector<vector<int>>& g, vector<bool>& vis) {
+        vis[u] = true;
+        for (int v : g[u]) {
+            if (!vis[v]) {
+                if (dfs(v, u, g, vis)) return true;
+            } else if (v != parent) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        vector<vector<int>> g(V);
+        for (auto& e : edges) {
+            g[e[0]].push_back(e[1]);
+            g[e[1]].push_back(e[0]);
+        }
+        vector<bool> vis(V, false);
+        for (int i = 0; i < V; i++) {
+            if (!vis[i] && dfs(i, -1, g, vis)) return true;
+        }
+        return false;
+    }
+};
