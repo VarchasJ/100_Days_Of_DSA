@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+    int n;
+    int dp[1 << 15][15]; 
+
+    int solve(int mask, int curr, vector<vector<int>>& cost) {
+        if (mask == (1 << n) - 1) {
+            return cost[curr][0];
+        }
+
+        if (dp[mask][curr] != -1) {
+            return dp[mask][curr];
+        }
+
+        int ans = 1e9;
+
+        for (int next_city = 0; next_city < n; next_city++) {
+            if (!(mask & (1 << next_city))) {
+                int new_cost = cost[curr][next_city] + solve(mask | (1 << next_city), next_city, cost);
+                ans = min(ans, new_cost);
+            }
+        }
+
+        return dp[mask][curr] = ans;
+    }
+
+public:
+    int tsp(vector<vector<int>> cost) {
+        n = cost.size();
+        memset(dp, -1, sizeof(dp));
+        return solve(1, 0, cost);
+    }
+};
