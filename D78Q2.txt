@@ -1,0 +1,48 @@
+
+class Solution {
+    void dfs1(int u, vector<vector<int>>& adj, vector<bool>& vis, stack<int>& st) {
+        vis[u] = true;
+        for (int v : adj[u]) {
+            if (!vis[v]) dfs1(v, adj, vis, st);
+        }
+        st.push(u);
+    }
+
+    void dfs2(int u, vector<vector<int>>& adjT, vector<bool>& vis) {
+        vis[u] = true;
+        for (int v : adjT[u]) {
+            if (!vis[v]) dfs2(v, adjT, vis);
+        }
+    }
+
+public:
+    int kosaraju(int V, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(V);
+        for (auto& edge : edges) {
+            adj[edge[0]].push_back(edge[1]);
+        }
+
+        stack<int> st;
+        vector<bool> vis(V, false);
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) dfs1(i, adj, vis, st);
+        }
+
+        vector<vector<int>> adjT(V);
+        for (auto& edge : edges) {
+            adjT[edge[1]].push_back(edge[0]);
+        }
+
+        fill(vis.begin(), vis.end(), false);
+        int scc = 0;
+        while (!st.empty()) {
+            int u = st.top();
+            st.pop();
+            if (!vis[u]) {
+                scc++;
+                dfs2(u, adjT, vis);
+            }
+        }
+        return scc;
+    }
+};
